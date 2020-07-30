@@ -8,7 +8,11 @@ groups:
         severity: warning
       annotations:
         summary: "Container killed (instance {{ $labels.instance }})"
+<<<<<<< HEAD
         description: "Container {{ $labels.container_label_com_docker_compose_service }} has disappeared"
+=======
+        description: "A container has disappeared\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+>>>>>>> 0003745584fc6fc834a73739e05a70151a4138df
 
     - alert: ContainerCpuUsage
       expr: (sum(rate(container_cpu_usage_seconds_total[3m])) BY (instance, name) * 100) > 80
