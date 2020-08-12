@@ -2,17 +2,13 @@ groups:
   - name: default
     rules:
     - alert: ContainerKilled
-      expr: time() - container_last_seen > 10
+      expr: time() - container_last_seen > 180
       for: 10s
       labels:
         severity: warning
       annotations:
         summary: "Container killed (instance {{ $labels.instance }})"
-<<<<<<< HEAD
         description: "Container {{ $labels.container_label_com_docker_compose_service }} has disappeared"
-=======
-        description: "A container has disappeared\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
->>>>>>> 0003745584fc6fc834a73739e05a70151a4138df
 
     - alert: ContainerCpuUsage
       expr: (sum(rate(container_cpu_usage_seconds_total[3m])) BY (instance, name) * 100) > 80
@@ -22,3 +18,13 @@ groups:
       annotations:
         summary: "Container CPU usage (instance {{ $labels.instance }})"
         description: "Container CPU usage is above 80%\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+    - alert: BlackboxProbeHttpFailure
+      expr: probe_http_status_code <= 199 OR probe_http_status_code >= 400
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Blackbox probe HTTP failure (instance {{ $labels.instance }})"
+        description: "HTTP status code is not 200-399\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+

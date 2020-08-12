@@ -1,8 +1,8 @@
 global:
-  smtp_from: 1
+  smtp_from: lab.alert.manager@gmail.com
   smtp_smarthost: smtp.gmail.com:587
-  smtp_auth_username: 1
-  smtp_auth_password: 2
+  smtp_auth_username: lab.alert.manager@gmail.com
+  smtp_auth_password: 3ringg_pass
 
 
 route:
@@ -13,6 +13,5 @@ route:
 receivers:
   - name: email
     email_configs:
-    - to: "3"
-    - to: "4"
-    - to: "5"
+    - to: "asafblevy@gmail.com"
+    - to: "mord236@gmail.com"

@@ -2,58 +2,50 @@ version: "3"
 services:
   web1:
     image: nginx:latest
-<<<<<<< HEAD
     container_name: web1
-=======
->>>>>>> 0003745584fc6fc834a73739e05a70151a4138df
     environment:
       - NGINX_PORT=80
     networks:
       - backend
     volumes:
       - "./web1/index.html:/usr/share/nginx/html/index.html"
+  
   web2:
     image: nginx:latest
-<<<<<<< HEAD
     container_name: web2
-=======
->>>>>>> 0003745584fc6fc834a73739e05a70151a4138df
     environment:
       - NGINX_PORT=80
     networks:
       - backend
     volumes:
       - "./web2/index.html:/usr/share/nginx/html/index.html"
+  
   haproxy:
     image: haproxy:latest
-<<<<<<< HEAD
     container_name: haproxy
-=======
->>>>>>> 0003745584fc6fc834a73739e05a70151a4138df
     volumes:
       - "./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
     ports:
-      - "8081:80"
+      - "80:80"
     networks:
       - backend
+  
   prometheus:
     image: prom/prometheus
-<<<<<<< HEAD
     container_name: prometheus
     volumes:
       - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
       - "./prometheus/alert_rules.yml:/etc/prometheus/alerts/alert_rules.yml"
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
-=======
     volumes:
       - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
       - "./prometheus/alert_rules.yml:/etc/prometheus/alerts/alert_rules.yml"
->>>>>>> 0003745584fc6fc834a73739e05a70151a4138df
     ports:
       - "9090:9090"
     networks:
       - backend
+  
   cadvisor:
     image: gcr.io/google-containers/cadvisor:latest
     container_name: cadvisor
@@ -66,7 +58,7 @@ services:
     - "/var/lib/docker/:/var/lib/docker:ro"
     networks:
       - backend
-<<<<<<< HEAD
+  
   alertmanager:
     image: prom/alertmanager
     container_name: alertmanager
@@ -76,8 +68,16 @@ services:
       - "9093:9093"
     networks:
       - backend
-=======
->>>>>>> 0003745584fc6fc834a73739e05a70151a4138df
+
+  blackbox:
+    image: prom/blackbox-exporter
+    container_name: blackbox
+    ports:
+      - "9115:9115"
+    networks:
+      - backend
+
 networks:
   backend:
     driver: bridge
+
